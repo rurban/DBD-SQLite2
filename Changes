@@ -1,5 +1,9 @@
 Revision history for Perl extension DBD::SQLite.
 
+0.33
+    - Set HAVE_USLEEP appropriately. This massively improves
+      concurrent access to your SQLite DB.
+
 0.32
     - Renamed to DBD::SQLite2 to allow backwards compatibility
     - Implemented busy_timeout API
