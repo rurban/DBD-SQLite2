@@ -475,12 +475,10 @@ sqlite2_st_fetch (SV *sth, imp_sth_t *imp_sth)
     /* warn("current_entry == %d\nnumFields == %d\nnrow == %d",
         current_entry, numFields, imp_sth->nrow); */
 
-    /*
-    if (!DBIc_ACTIVE(imp_sth)) {
+    if (!DBIc_ACTIVE(imp_sth)) { /* [cpan #16451] */
         return Nullav;
     }
-    */
-    
+
     if ((imp_sth->retval == SQLITE_DONE) || (imp_sth->retval == SQLITE_ERROR)) {
         sqlite2_st_finish(sth, imp_sth);
         return Nullav;

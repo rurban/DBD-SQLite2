@@ -138,6 +138,11 @@ while (Testing()) {
     Test($state or ($numrows = TrueRows($cursor)) == 2)
 	       or ErrMsgF("Expected to fetch 2 rows, got %s.\n", $numrows);
 
+    # RT #16451 fetchrow() is called again after it has returned an
+    #  empty list
+    Test($state or !TrueRows($cursor))
+	       or ErrMsgF("Expected to fetch 0 rows\n");
+
     Test($state or $cursor->finish)
 	   or DbiError($dbh->err, $dbh->errstr);
 
