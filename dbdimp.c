@@ -498,7 +498,7 @@ sqlite2_st_fetch (SV *sth, imp_sth_t *imp_sth)
             char *decoded;
             if (chopBlanks) {
                 val = savepv(val);
-                while((len > 0) && (val[len-1] == ' ')) {
+                while(len > 0 && val[len-1] == ' ') {
                     len--;
                 }
                 val[len] = '\0';
@@ -508,9 +508,9 @@ sqlite2_st_fetch (SV *sth, imp_sth_t *imp_sth)
             Safefree(decoded);
             if (chopBlanks) Safefree(val);
 
-            if (!imp_dbh->no_utf8_flag) {
-            /* sv_utf8_encode(AvARRAY(av)[i]); */
-            }
+            /* if (!imp_dbh->no_utf8_flag) {
+            sv_utf8_encode(AvARRAY(av)[i]);
+            } */
         }
         else {
             sv_setsv(AvARRAY(av)[i], &PL_sv_undef);
@@ -648,8 +648,15 @@ sqlite2_st_FETCH_attrib (SV *sth, imp_sth_t *imp_sth, SV *keysv)
         retsv = sv_2mortal(newRV(sv_2mortal((SV*)av)));
         while (--i >= 0) {
             char *fieldname = imp_sth->coldata[i];
+            int len = strlen(fieldname);
+	    char *dot;
+	    /* RT#26775: DISTINCT(t.name) returns "(t.name)" */
+	    if (fieldname[0] == '(' && fieldname[len-1] == ')') {
+	      fieldname[len-1] = '\0';
+	      fieldname++;
+	    }
+            dot = instr(fieldname, ".");
             /* warn("Name [%d]: %s\n", i, fieldname); */
-            char *dot = instr(fieldname, ".");
             if (dot) /* drop table name from field name */
                 fieldname = ++dot;
             av_store(av, i, newSVpv(fieldname, 0));
