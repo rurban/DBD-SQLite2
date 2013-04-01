@@ -1,5 +1,5 @@
 use Test;
-BEGIN { plan tests => 18 }
+BEGIN { plan tests => 19 }
 use DBI;
 
 sub now {
@@ -108,5 +108,16 @@ ok( $result &&  $result->[0] eq '' );
 
 $result = $dbh->selectrow_arrayref( "SELECT noop(1.1)" );
 ok( $result &&  $result->[0] == 1.1 );
+
+{
+  use Config;
+  sub return_big {
+    return 2**32;
+  }
+  $dbh->func( "bignumber", 0, \&return_big, "create_function" );
+  $result = $dbh->selectrow_arrayref( "SELECT bignumber()" );
+  # [RT #28448] int overflow with use64bitint and !use64bitall
+  ok ($result && $$result[0] > 0);
+}
 
 $dbh->disconnect;
