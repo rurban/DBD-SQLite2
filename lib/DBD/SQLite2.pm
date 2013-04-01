@@ -5,7 +5,7 @@ use strict;
 
 use DBI;
 use vars qw($err $errstr $state $drh $VERSION @ISA);
-$VERSION = '0.33';
+$VERSION = '0.35';
 
 use DynaLoader();
 @ISA = ('DynaLoader');
@@ -279,7 +279,7 @@ DBD::SQLite2 - Self Contained RDBMS in a DBI Driver (sqlite 2.x)
 =head1 DESCRIPTION
 
 SQLite is a public domain RDBMS database engine that you can find
-at http://www.hwaci.com/sw/sqlite/.
+at http://www.sqlite.org/.
 
 Rather than ask you to install SQLite first, because SQLite is public
 domain, DBD::SQLite2 includes the entire thing in the distribution. So
@@ -287,22 +287,24 @@ in order to get a fast transaction capable RDBMS working for your
 perl project you simply have to install this module, and B<nothing>
 else.
 
-SQLite supports the following features:
+For real work please use the updated L<DBD::SQLite> driver with the
+up-to-date sqlite3 backend.
+SQLite2 supports the following features:
 
 =over 4
 
 =item Implements a large subset of SQL92
 
-See http://www.hwaci.com/sw/sqlite/lang.html for details.
+See http://www.sqlite.org/lang.html for details.
 
 =item A complete DB in a single disk file
 
 Everything for your database is stored in a single disk file, making it
-easier to move things around than with DBD::CSV.
+easier to move things around than with L<DBD::CSV>.
 
 =item Atomic commit and rollback
 
-Yes, DBD::SQLite2 is small and light, but it supports full transactions!
+Yes, DBD::SQLite2 is small and light, but it supports full transactions
 
 =item Extensible
 
@@ -321,7 +323,7 @@ The API works like every DBI module does. Please see L<DBI> for more
 details about core features.
 
 Currently many statement attributes are not implemented or are
-limited by the typeless nature of the SQLite database.
+limited by the typeless nature of the SQLite2 database.
 
 =head1 DRIVER PRIVATE ATTRIBUTES
 
@@ -331,7 +333,7 @@ limited by the typeless nature of the SQLite database.
 
 =item sqlite_version
 
-Returns the version of the SQLite library which DBD::SQLite2 is using, e.g., "2.8.0".
+Returns the version of the SQLite library which DBD::SQLite2 is using, i.e, "2.8.15".
 
 =item sqlite_encoding
 
@@ -345,8 +347,8 @@ and returned data.
 B<NOTE:> This will cause all backslash characters (C<\>) to be doubled
 up in all columns regardless of whether or not they contain binary
 data or not. This may break your database if you use it from another
-application. This does not use the built in sqlite_encode_binary
-and sqlite_decode_binary functions, which may be considered a bug.
+application. This does not use the built in C<sqlite_encode_binary>
+and C<sqlite_decode_binary> functions, which may be considered a bug.
 
 =back
 
@@ -533,10 +535,11 @@ Matt Sergeant, matt@sergeant.org
 
 Perl extension functions contributed by Francis J. Lacoste
 <flacoste@logreport.org> and Wolfgang Sourdeau
-<wolfgang@logreport.org>
+<wolfgang@logreport.org>.
+Maintainance help by Reini Urban <rurban@cpan.org>
 
 =head1 SEE ALSO
 
-L<DBI>.
+L<DBD::SQLite>, L<DBI>.
 
 =cut

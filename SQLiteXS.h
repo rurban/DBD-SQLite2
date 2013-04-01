@@ -11,5 +11,6 @@
 #include <dbd_xsh.h>
 
 #include "sqlite.h"
+int sqlite2_busy_timeout( SV *dbh, int timeout );
 
 #endif

@@ -1,4 +1,18 @@
-Revision history for Perl extension DBD::SQLite.
+Revision history for Perl extension DBD::SQLite2.
+
+0.35 2013-04-01 rurban
+    - Fix SEGV when fetchrow() is called again after it has returned an
+      empty list ie. the query has completed. [cpan #16451]
+    - Add testcases for [cpan #26775] and [cpan #28448]
+    - Fixed [cpan #26775]: Remove () in names with DISTINCT(t.name)
+    - Honor -g in $Config{optimize}
+    - Add META and POD tests, and META info for EUMM
+
+0.34 2013-04-01 rurban
+    - Fix SEGV in t/ak-dbd.t with asan, concurrent _sqlite2_fetch_row  [cpan #55636]
+    - Add return value for dbd_bind_ph() - bind_param with handle
+    - Add declaration for sqlite2_busy_timeout()
+    - Fix clang -Wparentheses and -Wint-conversion warnings
 
 0.33
     - Set HAVE_USLEEP appropriately. This massively improves

@@ -60,6 +60,11 @@ t/50chopblanks.t
 t/50commit.t
 t/60metadata.t
 t/90cppcomments.t
+t/98_kwalitee.t
+t/98_meta.t
+t/98_perl_minimum_version.t
+t/98_pod-coverage.t
+t/98_pod.t
 t/99cleanup.t
 t/SQLite2.dbtest
 t/ak-dbd.t
@@ -76,4 +81,6 @@ vdbe.h
 vdbeaux.c
 vdbeInt.h
 where.c
-META.yml                                Module meta-data (added by MakeMaker)
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)
+SIGNATURE                                Public-key signature (added by MakeMaker)

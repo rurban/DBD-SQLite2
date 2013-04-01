@@ -1,11 +1,28 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         DBD-SQLite2
-version:      0.33
-version_from: lib/DBD/SQLite2.pm
-installdirs:  site
+---
+abstract: 'Self Contained RDBMS in a DBI Driver (sqlite 2.x)'
+author:
+  - 'Matt Sergeant <matt@sergeant.org>'
+build_requires:
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120351'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: DBD-SQLite2
+no_index:
+  directory:
+    - t
+    - inc
+recommends:
+  DBD::SQLite: 1.37
+  DBI: 1.625
 requires:
-    DBI:                           1.21
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.21
+  DBI: 1.625
+resources:
+  license: http://dev.perl.org/licenses/
+  repository: https://github.com/rurban/DBD-SQLite2
+version: 0.35

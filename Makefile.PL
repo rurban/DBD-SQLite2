@@ -10,13 +10,33 @@ use strict;
 WriteMakefile(
     'NAME'          => 'DBD::SQLite2',
     'VERSION_FROM'  => 'lib/DBD/SQLite2.pm', # finds $VERSION
-    'PREREQ_PM'     => {DBI => 1.21}, # e.g., Module::Name => 1.1
+    'PREREQ_PM'     => {
+      DBI => 1.625,
+     },
     'OBJECT'        => '$(O_FILES)',
     'INC'           => '-I$(DBI_INSTARCH_DIR)',
-    'OPTIMIZE'      => "-O2",
+    'OPTIMIZE'      => $Config{optimize} . " -O2",
     'DEFINE'        => "-DNDEBUG=1 -DSQLITE_PTR_SZ=$Config{ptrsize}" .
                        ($Config{d_usleep} ? " -DHAVE_USLEEP=1" : ""),
     'clean'         => { FILES => 'SQLite2.xsi config.h' },
+    'ABSTRACT_FROM'  =>  'lib/DBD/SQLite2.pm',
+    'AUTHOR'         => 'Matt Sergeant <matt@sergeant.org>',
+  ($ExtUtils::MakeMaker::VERSION gt '6.46' ?
+   ('LICENSE'     => 'perl',
+    'META_MERGE'  =>
+    {"recommends" =>
+     {
+       'DBD::SQLite'  => '1.37',
+       'DBI'          => '1.625',
+     },
+     resources =>
+     {       
+	license     => 'http://dev.perl.org/licenses/',
+         repository  => 'https://github.com/rurban/DBD-SQLite2',
+     },
+    }
+   ) : ()),
+  SIGN  => 1
 );
 
 package MY;
