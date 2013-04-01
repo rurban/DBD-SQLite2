@@ -5,7 +5,7 @@ use strict;
 
 use DBI;
 use vars qw($err $errstr $state $drh $VERSION @ISA);
-$VERSION = '0.33';
+$VERSION = '0.34';
 
 use DynaLoader();
 @ISA = ('DynaLoader');

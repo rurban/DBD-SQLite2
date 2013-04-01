@@ -70,9 +70,9 @@ sqlite2_db_login(SV *dbh, imp_dbh_t *imp_dbh, char *dbname, char *user, char *pa
 
     sqlite_busy_timeout(imp_dbh->db, SQL_TIMEOUT);
 
-    if (retval = sqlite_exec(imp_dbh->db, "PRAGMA empty_result_callbacks = ON",
+    if ((retval = sqlite_exec(imp_dbh->db, "PRAGMA empty_result_callbacks = ON",
         NULL, NULL, &errmsg)
-        != SQLITE_OK)
+	 != SQLITE_OK))
     {
         /*  warn("failed to set pragma: %s\n", errmsg); */
 	    sqlite2_error(dbh, (imp_xxh_t*)imp_dbh, retval, errmsg);
@@ -80,9 +80,9 @@ sqlite2_db_login(SV *dbh, imp_dbh_t *imp_dbh, char *dbname, char *user, char *pa
         return FALSE;
     }
 
-    if (retval = sqlite_exec(imp_dbh->db, "PRAGMA show_datatypes = ON",
+    if ((retval = sqlite_exec(imp_dbh->db, "PRAGMA show_datatypes = ON",
         NULL, NULL, &errmsg)
-        != SQLITE_OK)
+	 != SQLITE_OK))
     {
         /*  warn("failed to set pragma: %s\n", errmsg); */
     	sqlite2_error(dbh, (imp_xxh_t*)imp_dbh, retval, errmsg);
@@ -146,9 +146,9 @@ sqlite2_db_rollback(SV *dbh, imp_dbh_t *imp_dbh)
     char *errmsg;
 
     if (imp_dbh->in_tran) {
-        if (retval = sqlite_exec(imp_dbh->db, "ROLLBACK TRANSACTION",
-            NULL, NULL, &errmsg)
-            != SQLITE_OK)
+        if ((retval = sqlite_exec(imp_dbh->db, "ROLLBACK TRANSACTION",
+				NULL, NULL, &errmsg)
+	   != SQLITE_OK))
         {
 	    sqlite2_error(dbh, (imp_xxh_t*)imp_dbh, retval, errmsg);
             sqlite_freemem(errmsg);
@@ -173,9 +173,9 @@ sqlite2_db_commit(SV *dbh, imp_dbh_t *imp_dbh)
     }
 
     if (imp_dbh->in_tran) {
-        if (retval = sqlite_exec(imp_dbh->db, "COMMIT TRANSACTION",
-            NULL, NULL, &errmsg)
-            != SQLITE_OK)
+        if ((retval = sqlite_exec(imp_dbh->db, "COMMIT TRANSACTION",
+				NULL, NULL, &errmsg)
+	   != SQLITE_OK))
         {
 	    sqlite2_error(dbh, (imp_xxh_t*)imp_dbh, retval, errmsg);
             sqlite_freemem(errmsg);
@@ -343,7 +343,8 @@ _sqlite2_fetch_row (imp_sth_t *imp_sth)
 {
     while (1)
     {
-        imp_sth->retval = sqlite_step(imp_sth->vm, 
+        if (imp_sth->vm)
+          imp_sth->retval = sqlite_step(imp_sth->vm,
             &(imp_sth->ncols), (const char ***)&(imp_sth->results), (const char ***)&(imp_sth->coldata));
         if (imp_sth->retval == SQLITE_BUSY) {
             break; /* We should never get "busy" here because we set sqlite_timeout, so assume error */
@@ -395,9 +396,9 @@ sqlite2_st_execute (SV *sth, imp_sth_t *imp_sth)
     /* warn("Executing: %s;\n", SvPV_nolen(sql)); */
 
     if ( (!DBIc_is(imp_dbh, DBIcf_AutoCommit)) && (!imp_dbh->in_tran) ) {
-        if (retval = sqlite_exec(imp_dbh->db, "BEGIN TRANSACTION",
-            NULL, NULL, &errmsg)
-            != SQLITE_OK)
+        if ((retval = sqlite_exec(imp_dbh->db, "BEGIN TRANSACTION",
+				  NULL, NULL, &errmsg)
+	     != SQLITE_OK))
         {
             sqlite2_error(sth, (imp_xxh_t*)imp_sth, retval, errmsg);
             sqlite_freemem(errmsg);
@@ -407,7 +408,8 @@ sqlite2_st_execute (SV *sth, imp_sth_t *imp_sth)
     }
 
     imp_sth->results = NULL;
-    if (retval = sqlite_compile(imp_dbh->db, SvPV_nolen(sql), 0, &(imp_sth->vm), &errmsg) != SQLITE_OK)
+    if ((retval = sqlite_compile(imp_dbh->db, SvPV_nolen(sql), 0, &(imp_sth->vm), &errmsg)
+	 != SQLITE_OK))
     {
         sqlite2_error(sth, (imp_xxh_t*)imp_sth, retval, errmsg);
         sqlite_freemem(errmsg);
@@ -454,10 +456,10 @@ sqlite2_bind_ph (SV *sth, imp_sth_t *imp_sth,
     }
     /* warn("bind: %s => %s\n", SvPV_nolen(param), SvPV_nolen(value)); */
     if (sql_type >= SQL_NUMERIC && sql_type <= SQL_DOUBLE) {
-        av_store(imp_sth->params, SvIV(param) - 1, newSVnv(SvNV(value)));
+        return av_store(imp_sth->params, SvIV(param) - 1, newSVnv(SvNV(value))) ? 1 : 0;
     }
     else {
-        av_store(imp_sth->params, SvIV(param) - 1, SvREFCNT_inc(value));
+        return av_store(imp_sth->params, SvIV(param) - 1, SvREFCNT_inc(value)) ? 1 : 0;
     }
 }
 
@@ -527,7 +529,7 @@ sqlite2_st_finish (SV *sth, imp_sth_t *imp_sth)
     if (DBIc_ACTIVE(imp_sth)) {
         char *errmsg;
         DBIc_ACTIVE_off(imp_sth);
-        if (imp_sth->retval = sqlite_finalize(imp_sth->vm, &errmsg) == SQLITE_ERROR) {
+        if ((imp_sth->retval = sqlite_finalize(imp_sth->vm, &errmsg) == SQLITE_ERROR)) {
             warn("finalize failed! %s\n", errmsg);
             sqlite2_error(sth, (imp_xxh_t*)imp_sth, imp_sth->retval, errmsg);
             sqlite_freemem(errmsg);
@@ -568,9 +570,9 @@ sqlite2_db_STORE_attrib (SV *dbh, imp_dbh_t *imp_dbh, SV *keysv, SV *valuesv)
         if (SvTRUE(valuesv)) {
             /* commit tran? */
             if ( (!DBIc_is(imp_dbh, DBIcf_AutoCommit)) && (imp_dbh->in_tran) ) {
-                if (retval = sqlite_exec(imp_dbh->db, "COMMIT TRANSACTION",
-                    NULL, NULL, &errmsg)
-                    != SQLITE_OK)
+	        if ((retval = sqlite_exec(imp_dbh->db, "COMMIT TRANSACTION",
+					  NULL, NULL, &errmsg)
+		     != SQLITE_OK))
                 {
 		    sqlite2_error(dbh, (imp_xxh_t*)imp_dbh, retval, errmsg);
                     sqlite_freemem(errmsg);
