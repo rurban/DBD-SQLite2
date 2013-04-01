@@ -13,7 +13,7 @@ WriteMakefile(
     'PREREQ_PM'     => {DBI => 1.21}, # e.g., Module::Name => 1.1
     'OBJECT'        => '$(O_FILES)',
     'INC'           => '-I$(DBI_INSTARCH_DIR)',
-    'OPTIMIZE'      => "-O2",
+    'OPTIMIZE'      => $Config{optimize} . " -O2",
     'DEFINE'        => "-DNDEBUG=1 -DSQLITE_PTR_SZ=$Config{ptrsize}" .
                        ($Config{d_usleep} ? " -DHAVE_USLEEP=1" : ""),
     'clean'         => { FILES => 'SQLite2.xsi config.h' },

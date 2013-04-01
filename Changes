@@ -1,4 +1,4 @@
-Revision history for Perl extension DBD::SQLite.
+Revision history for Perl extension DBD::SQLite2.
 
 0.35 2013-04-01 rurban
     - Fix SEGV when fetchrow() is called again after it has returned an
