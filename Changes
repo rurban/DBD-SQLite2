@@ -1,5 +1,10 @@
 Revision history for Perl extension DBD::SQLite2.
 
+0.36 2013-04-08 rurban
+    - Fix mingw32 off_t redefinition. [cpan #84492]
+      Use a private sql_off_t typedef for the sqlite internal off_t type.
+    - cygwin is now a OS_UNIX, not OS_WIN.
+
 0.35 2013-04-01 rurban
     - Fix SEGV when fetchrow() is called again after it has returned an
       empty list ie. the query has completed. [cpan #16451]
