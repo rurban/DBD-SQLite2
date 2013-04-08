@@ -71,7 +71,7 @@
 #      define OS_MAC 1
 #      define OS_WIN 0
 #      define OS_UNIX 0
-#    elif defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
+#    elif defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__)
 #      define OS_MAC 0
 #      define OS_WIN 1
 #      define OS_UNIX 0
@@ -131,10 +131,10 @@
 # if defined(_MSC_VER) || defined(__BORLANDC__)
     typedef __int64 sql_off_t;
 # else
-#  if defined(__MINGW32__) /* always large file */
+#  if defined(__MINGW32__)  /* always large file */
     typedef long long sql_off_t;
 #  else
-    typedef off_t sql_off_t;
+    typedef off_t sql_off_t; /* this should not happen */
 #  endif
 # endif
 # define SQLITE_TEMPNAME_SIZE (MAX_PATH+50)
