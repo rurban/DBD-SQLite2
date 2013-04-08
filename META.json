@@ -4,7 +4,7 @@
       "Matt Sergeant <matt@sergeant.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120351",
+   "generated_by" : "ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -49,5 +49,5 @@
          "url" : "https://github.com/rurban/DBD-SQLite2"
       }
    },
-   "version" : "0.35"
+   "version" : "0.36"
 }

@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.68.
+signed via the Module::Signature module, version 0.70.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,12 +14,12 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 ec32b1a06924b5fa3e346f1c42510ee82eab02a0 Changes
+SHA1 63f1e3407a4c766deda62628d41255ae52474cf3 Changes
 SHA1 f88ce9a1b86d7b4cc248c1ec56d26952da55e0f7 MANIFEST
 SHA1 dff4a586999ce3a3cd31d928551c8d443148e23a MANIFEST.SKIP
-SHA1 11236f5b3f5da7ac8609c22488a890fa02d019f6 META.json
-SHA1 941dc682ef9efb64a99411961218a3c4dbc775b0 META.yml
-SHA1 232a8a596b8fd97bb268b4f19d3778bcd5db09d6 Makefile.PL
+SHA1 d68c1f0ded77c13f0668710e888c31cef817e9b8 META.json
+SHA1 6aa791aebe0145bbe93ea1c313290b37351458f2 META.yml
+SHA1 32bb5a1fc2f81411d80c5cc519b7ae132eb62886 Makefile.PL
 SHA1 1675bd10f5f5d4e0f9c58a5466ddc7f7f1e35c87 README
 SHA1 c9b5324d791cff4197dcf3920f3c835f573fd2f6 SQLite2.xs
 SHA1 4ad8de8eb7696c0a1817345ce16a1995eb37fe52 SQLiteXS.h
@@ -41,13 +41,13 @@ SHA1 fba4711f23fe0cfb5a99e8943acf2482d8052b22 getsqlite.pl
 SHA1 7edafe1f1dbb880a65c9d9f0b4f2574a4914157a hash.c
 SHA1 9d06f995521f463b93fcdc5cf4cf277479711e02 hash.h
 SHA1 b4e3daa3864e9ce2272187f6133d4ac45fd43aa5 insert.c
-SHA1 d4365c289f4c1696cf50c5f5f7f1a580f845f18b lib/DBD/SQLite2.pm
+SHA1 b769b93553ecdfd897ae1b8cd3218a91bcdfcb4c lib/DBD/SQLite2.pm
 SHA1 ddf1714b737c3fa7adf8c1de3403e661b6dcdbc7 main.c
 SHA1 70ba735ff3db323a60b23ead3b11a6be38ae38c2 opcodes.c
 SHA1 ea7104ef30d468ec59d96186f00e79a447395bb6 opcodes.h
-SHA1 8cfb27bd84900d542d2f520375aa407cb3ed6aab os.c
-SHA1 250a3789be609adfee5c5aa20137ce8683276f24 os.h
-SHA1 18c31b1506859d370db4c3753a06612c907ec428 pager.c
+SHA1 d891cc60d6d6da17549672166929b69f022746bd os.c
+SHA1 7c588662dd9c9b7c0d3b3e924bc346d25b46364e os.h
+SHA1 847f8ec4a2a7fa807ca76f2fdfd66392e293fee3 pager.c
 SHA1 e127d8c1a2bd3b55bd11b8049eee3714c0481e25 pager.h
 SHA1 31cccbb03e666cb901efeddb1f0f160db326222d parse.c
 SHA1 a0d66f99119fcff20dac750466f37e654b4e6738 parse.h
@@ -100,9 +100,9 @@ SHA1 b40ff02ce39fd076e6ff3369e19c1bbfe1986682 vdbeInt.h
 SHA1 14ff0eb6ed9d5998f927433c91b0a3d13d81f4f6 vdbeaux.c
 SHA1 1e5e2f6cd32cf312698df052332dc63278c31f58 where.c
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.13 (Darwin)
+Version: GnuPG v1.4.12 (GNU/Linux)
 
-iEYEARECAAYFAlFaFjQACgkQmm2SYo/9yUKymQCeI32ez8bxbTnsu9UGzNnFS+6J
-n0sAmwQ3avm0DrHi0/f40OhoM9v5YwBg
-=4pdd
+iEYEARECAAYFAlFi3TcACgkQmm2SYo/9yUJVPQCfb+RA9o66gz1KAvWF8/xhSU2j
+kKkAmwRvpBkHqJR9MArZGQJgDE9ctpg6
+=YBlf
 -----END PGP SIGNATURE-----

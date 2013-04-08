@@ -71,7 +71,7 @@
 #      define OS_MAC 1
 #      define OS_WIN 0
 #      define OS_UNIX 0
-#    elif defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
+#    elif defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__)
 #      define OS_MAC 0
 #      define OS_WIN 1
 #      define OS_UNIX 0
@@ -117,6 +117,7 @@
 # else
 #  define SQLITE_MIN_SLEEP_MS 1000
 # endif
+  typedef off_t sql_off_t;
 #endif
 
 #if OS_WIN
@@ -128,13 +129,12 @@
     int locked;             /* 0: unlocked, <0: write lock, >0: read lock */
   };
 # if defined(_MSC_VER) || defined(__BORLANDC__)
-    typedef __int64 off_t;
+    typedef __int64 sql_off_t;
 # else
-#  if !defined(_CYGWIN_TYPES_H)
-     typedef long long off_t;
-#    if defined(__MINGW32__)
-#      define	_OFF_T_
-#    endif
+#  if defined(__MINGW32__)  /* always large file */
+    typedef long long sql_off_t;
+#  else
+    typedef off_t sql_off_t; /* this should not happen */
 #  endif
 # endif
 # define SQLITE_TEMPNAME_SIZE (MAX_PATH+50)
@@ -153,9 +153,9 @@
     char *pathToDel;         /* Name of file to delete on close */
   };
 # ifdef _LARGE_FILE
-    typedef SInt64 off_t;
+    typedef SInt64 sql_off_t;
 # else
-    typedef SInt32 off_t;
+    typedef SInt32 sql_off_t;
 # endif
 # define SQLITE_TEMPNAME_SIZE _MAX_PATH
 # define SQLITE_MIN_SLEEP_MS 17
@@ -172,10 +172,10 @@ int sqliteOsTempFileName(char*);
 int sqliteOsClose(OsFile*);
 int sqliteOsRead(OsFile*, void*, int amt);
 int sqliteOsWrite(OsFile*, const void*, int amt);
-int sqliteOsSeek(OsFile*, off_t offset);
+int sqliteOsSeek(OsFile*, sql_off_t offset);
 int sqliteOsSync(OsFile*);
-int sqliteOsTruncate(OsFile*, off_t size);
-int sqliteOsFileSize(OsFile*, off_t *pSize);
+int sqliteOsTruncate(OsFile*, sql_off_t size);
+int sqliteOsFileSize(OsFile*, sql_off_t *pSize);
 int sqliteOsReadLock(OsFile*);
 int sqliteOsWriteLock(OsFile*);
 int sqliteOsUnlock(OsFile*);
