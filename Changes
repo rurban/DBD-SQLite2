@@ -5,6 +5,11 @@ Revision history for Perl extension DBD::SQLite2.
       We promote now overlong integers to double, not strings.
       sqlite_set_result_double() was never used.
       However this is still broken with <5.8.9 and 64bitint. [cpan #28448]
+    - Add LICENSE for t/98_kwalitee.t (only specified in EUMM rule)
+    - Add CONFIGURE_REQUIRES => DBI [cpan #110188]
+    - Fix little spelling error [cpan #85437]
+    - Silence void* to int cast warning in func.c
+    - Improve kwalitee test
 
 0.36 2013-04-08 rurban
     - Fix mingw32 off_t redefinition. [cpan #84492]

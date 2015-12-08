@@ -5,7 +5,7 @@ use strict;
 
 use DBI;
 use vars qw($err $errstr $state $drh $VERSION @ISA);
-$VERSION = '0.36';
+$VERSION = '0.37';
 
 use DynaLoader();
 @ISA = ('DynaLoader');
@@ -536,7 +536,12 @@ Matt Sergeant, matt@sergeant.org
 Perl extension functions contributed by Francis J. Lacoste
 <flacoste@logreport.org> and Wolfgang Sourdeau
 <wolfgang@logreport.org>.
-Maintainance help by Reini Urban <rurban@cpan.org>
+Maintenance help by Reini Urban <rurban@cpan.org>
+
+=head1 LICENSE
+
+This module is available under the same licences as perl, the Artistic
+license and the GPL.
 
 =head1 SEE ALSO
 

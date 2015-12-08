@@ -21,6 +21,8 @@ WriteMakefile(
     'clean'         => { FILES => 'SQLite2.xsi config.h' },
     'ABSTRACT_FROM'  =>  'lib/DBD/SQLite2.pm',
     'AUTHOR'         => 'Matt Sergeant <matt@sergeant.org>',
+  ($ExtUtils::MakeMaker::VERSION ge '6.52' ?
+   ('CONFIGURE_REQUIRES' => {DBI => 1.625}) : ()),
   ($ExtUtils::MakeMaker::VERSION gt '6.46' ?
    ('LICENSE'     => 'perl',
     'META_MERGE'  =>
