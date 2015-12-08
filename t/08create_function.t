@@ -1,5 +1,5 @@
-use Test;
-BEGIN { plan tests => 19 }
+use Test::More;
+BEGIN { plan tests => 20 }
 use DBI;
 
 sub now {
@@ -109,15 +109,25 @@ ok( $result &&  $result->[0] eq '' );
 $result = $dbh->selectrow_arrayref( "SELECT noop(1.1)" );
 ok( $result &&  $result->[0] == 1.1 );
 
-{
+TODO: {
+  local $TODO = 'int overflow < 5.8.9 [RT #28448]'
+    if $] < 5.008009 and $Config{use64bitint};
   use Config;
   sub return_big {
     return 2**32;
   }
   $dbh->func( "bignumber", 0, \&return_big, "create_function" );
   $result = $dbh->selectrow_arrayref( "SELECT bignumber()" );
-  # [RT #28448] int overflow with use64bitint and !use64bitall
-  ok ($result && $$result[0] > 0);
+  # sqlite_set_result_int cannot handle long, 4294967296
+  ok ($result && $$result[0] > 0, "bignumber")
+    or diag "$result, $$result[0] use64bitint=$Config{use64bitint} use64bitall=$Config{use64bitall}";
 }
+
+sub return_double {
+  return 3.0 / 2.0;
+}
+$dbh->func( "number3by2", 0, \&return_double, "create_function" );
+$result = $dbh->selectrow_arrayref( "SELECT number3by2()" );
+ok ($result && $$result[0] == 1.5, "number3by2");
 
 $dbh->disconnect;

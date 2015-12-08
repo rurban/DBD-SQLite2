@@ -710,10 +710,16 @@ sqlite2_db_set_result(sqlite_func *context, SV *result, int is_error )
 
     if ( !SvOK(result) ) {
         sqlite_set_result_string( context, NULL, -1 );
-    } else if( SvIOK(result) ) {
-        sqlite_set_result_int( context, SvIV(result));
-    } else if ( !is_error && SvIOK(result) ) {
-        sqlite_set_result_double( context, SvNV(result));
+    } else if ( SvIOK(result) ) {
+        IV iv = SvIV(result);
+        if (iv > I32_MAX || iv < I32_MIN) { /* sqlite cannot handle 64bit int */
+          double nv = (double)iv;
+          sqlite_set_result_int( context, nv );
+        }
+        else
+          sqlite_set_result_int( context, iv );
+    } else if ( SvNOK(result) ) {
+        sqlite_set_result_double( context, SvNV(result) );
     } else {
         s = SvPV(result, len);
         sqlite_set_result_string( context, s, len );
