@@ -109,9 +109,9 @@ ok( $result &&  $result->[0] eq '' );
 $result = $dbh->selectrow_arrayref( "SELECT noop(1.1)" );
 ok( $result &&  $result->[0] == 1.1 );
 
-TODO: {
-  local $TODO = 'int overflow < 5.8.9 [RT #28448]'
-    if $] < 5.008009 and $Config{use64bitint};
+#TODO: {
+  #local $TODO = 'int overflow < 5.8.9 [RT #28448]'
+  #  if $] < 5.008009 and $Config{use64bitint};
   use Config;
   sub return_big {
     return 2**32;
@@ -121,7 +121,7 @@ TODO: {
   # sqlite_set_result_int cannot handle long, 4294967296
   ok ($result && $$result[0] > 0, "bignumber")
     or diag "$result, $$result[0] use64bitint=$Config{use64bitint} use64bitall=$Config{use64bitall}";
-}
+#}
 
 sub return_double {
   return 3.0 / 2.0;

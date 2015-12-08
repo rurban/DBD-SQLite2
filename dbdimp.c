@@ -714,7 +714,7 @@ sqlite2_db_set_result(sqlite_func *context, SV *result, int is_error )
         IV iv = SvIV(result);
         if (iv > I32_MAX || iv < I32_MIN) { /* sqlite cannot handle 64bit int */
           double nv = (double)iv;
-          sqlite_set_result_int( context, nv );
+          sqlite_set_result_double( context, nv );
         }
         else
           sqlite_set_result_int( context, iv );
