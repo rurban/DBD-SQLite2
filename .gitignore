@@ -45,3 +45,7 @@ vacuum.o
 vdbe.o
 vdbeaux.o
 where.o
+*.gcov
+*.gcda
+*.gcno
+/cover_db
